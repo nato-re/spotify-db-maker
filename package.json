@@ -10,6 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "sqlstring": "^2.3.2"
+  },
+  "devDependencies": {
+    "eslint-config-trybe-backend": "^1.0.4"
   }
 }
