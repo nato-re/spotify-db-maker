@@ -1,4 +1,5 @@
 const axios = require('axios');
+const removeDuplicates = require('./removeDuplicates');
 require('dotenv/config');
 
 const { TOKEN, PLAYLIST_ID } = process.env;
@@ -78,7 +79,7 @@ module.exports = async () => {
       playlistEndPoint = playlistRequest.data.next;
     }
 
-    return { playlistData, userArr };
+    return { playlistData, userArr: removeDuplicates(userArr, 'uri') };
   } catch (error) {
     console.log('erro', error);
   }

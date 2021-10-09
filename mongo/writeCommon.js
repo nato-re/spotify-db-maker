@@ -1,6 +1,5 @@
 const fs = require('fs');
-const getPlaylistData = require('./getPlaylistData');
-const removeDuplicates = require('./removeDuplicates');
+const getPlaylistData = require('../getPlaylistData');
 require('dotenv/config');
 
 const { TURMA } = process.env;
@@ -12,5 +11,5 @@ const playlistJSONUsers = `users-${TURMA}`;
     const { playlistData, userArr } = await getPlaylistData();
     fs.writeFileSync(`./data/${playlistJSONName}.json`, JSON.stringify(playlistData), console.log);
     fs.writeFileSync(`./data/${playlistJSONUsers}.json`,
-        JSON.stringify(removeDuplicates([...userArr], 'display_name')), console.log);
+        JSON.stringify(userArr));
 })();

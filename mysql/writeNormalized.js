@@ -4,8 +4,7 @@ require('dotenv/config');
 const { TURMA } = process.env;
 
 const sqlString = require('sqlstring');
-const users = require('./data/users-12.json');
-const getPlaylistData = require('./getPlaylistData');
+const getPlaylistData = require('../getPlaylistData');
 
 const tableConstraintsObj = require('./tableConstraints');
 
@@ -102,7 +101,7 @@ const genereAlbumInsert = (data) => data.reduce((prev, [genre, album]) => prev.c
 const artistInsert = (data) => data.reduce((prev, { id, name }) =>
     prev.concat(`INSERT IGNORE INTO artist(id, name) VALUES ('${id}', '${name}');\r\n`), '');
 
-const createFinalQuery = (playlist) => {
+const createFinalQuery = (playlist, users) => {
     const albuns = uniqueObjectByKey(playlist, 'album');
     const artists = uniqueObjectByKey(playlist, 'artist');
     const genres = uniqueGenres(albuns);
@@ -121,7 +120,7 @@ const createFinalQuery = (playlist) => {
 };
 
 (async () => {
-    const { playlistData } = await getPlaylistData();
+    const { playlistData, userArr } = await getPlaylistData();
 
-    fs.writeFileSync(`./data/playlist-T${TURMA}.sql`, createFinalQuery(playlistData));
+    fs.writeFileSync(`./data/playlist-T${TURMA}.sql`, createFinalQuery(playlistData, userArr));
 })();
