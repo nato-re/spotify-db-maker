@@ -1,5 +1,5 @@
 const fs = require('fs');
-const getPlaylistData = require('./getPlaylistData');
+const getPlaylistData = require('../getPlaylistData');
 require('dotenv/config');
 
 const { TURMA } = process.env;
