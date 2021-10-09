@@ -1,5 +1,5 @@
 const fs = require('fs');
-const playlist = require('./playlist-T12.json');
+const getPlaylistData = require('./getPlaylistData');
 require('dotenv/config');
 
 const { TURMA } = process.env;
@@ -34,7 +34,7 @@ function main(list) {
 
     const final = BASE_QUERY + insertQuery;
 
-    fs.writeFileSync(`./data/playlist-${TURMA}.sql`, final);
+    fs.writeFileSync(`./data/non-normalized-playlist-${TURMA}.sql`, final);
 }
 
-main(playlist);
+getPlaylistData.then(main);
