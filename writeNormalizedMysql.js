@@ -5,12 +5,12 @@ const { TURMA } = process.env;
 
 const sqlString = require('sqlstring');
 const users = require('./data/users-12.json');
-// const playlist = require('./data/playlist-12.json');
+const getPlaylistData = require('./getPlaylistData');
 
 const tableConstraintsObj = require('./tableConstraints');
 
-const createDB = (name) => `DROP SCHEMA IF EXISTS ${name};\r\nCREATE SCHEMA IF NOT EXISTS ${
-    name};\r\nUSE ${name};\r\n`;
+const createDB = (name) => 
+`DROP SCHEMA IF EXISTS ${name};\r\nCREATE SCHEMA IF NOT EXISTS ${name};\r\nUSE ${name};\r\n`;
 
 const createTable = (tableName, constraints) => {
     const entries = Object.entries(constraints);
@@ -29,15 +29,13 @@ const genericInsert = (table, columns, values) => {
         Number.isNaN(Number(cur))
             ? `${sqlString.escape(
                 cur.includes('T00:00:00.000Z')
-                    ? cur.split('T')[0]
-                    : cur,
+                    ? cur.split('T')[0] : cur,
             )}`
             : cur,
     ), []);
 
-    return `INSERT IGNORE INTO ${table}(${
-        columns.filter((v) => v !== 'fk')
-    }) VALUES (${vals});\r\n`;
+    return `INSERT IGNORE INTO ${table}(${columns.filter((v) => v !== 'fk')
+        }) VALUES (${vals});\r\n`;
 };
 
 const createTables = (_tables) => {
@@ -73,7 +71,6 @@ const uniqueObjectByKey = (data, key) => {
     const existMap = {};
     return data.reduce(
         (acc, cur) => {
-            console.log(existMap[cur[key].id]);
             if (existMap[cur[key].id]) return acc;
             existMap[cur[key].id] = true;
             return acc.concat(cur[key]);
@@ -93,9 +90,9 @@ const genresInsert = (data) => data.reduce((prev, cur) =>
 
 const albumInsert = (data) => data.reduce(
     (prev, { id, name, artist_id: art, release_date: date }) =>
-prev.concat(
-    `INSERT IGNORE INTO album(id, name) VALUES ('${id}', '${name}', '${art}', ${date});\r\n`,
-), '',
+        prev.concat(
+        `INSERT IGNORE INTO album(id, name) VALUES ('${id}', '${name}', '${art}', ${date});\r\n`,
+        ), '',
 );
 
 const genereAlbumInsert = (data) => data.reduce((prev, [genre, album]) => prev.concat(
@@ -103,7 +100,7 @@ const genereAlbumInsert = (data) => data.reduce((prev, [genre, album]) => prev.c
 ), '');
 
 const artistInsert = (data) => data.reduce((prev, { id, name }) =>
-prev.concat(`INSERT IGNORE INTO artist(id, name) VALUES ('${id}', '${name}');\r\n`), '');
+    prev.concat(`INSERT IGNORE INTO artist(id, name) VALUES ('${id}', '${name}');\r\n`), '');
 
 const createFinalQuery = (playlist) => {
     const albuns = uniqueObjectByKey(playlist, 'album');
@@ -118,11 +115,13 @@ const createFinalQuery = (playlist) => {
         + playlist.reduce((prev, acc) => prev.concat(
             genericInsert('track', Object.keys(tableConstraintsObj.track),
                 Object.values(acc.track)),
-            ), '')
+        ), '')
         + genresInsert(genres)
         + genereAlbumInsert(genresAlbunsRelation);
-    };
-    
-module.exports = function main(playlist) {
-fs.writeFileSync(`./data/playlist-T${TURMA}.sql`, createFinalQuery(playlist));
 };
+
+(async () => {
+    const { playlistData } = await getPlaylistData();
+
+    fs.writeFileSync(`./data/playlist-T${TURMA}.sql`, createFinalQuery(playlistData));
+})();
