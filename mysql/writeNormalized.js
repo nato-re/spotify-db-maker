@@ -6,7 +6,7 @@ const { TURMA } = process.env;
 const sqlString = require('sqlstring');
 const getPlaylistData = require('../getPlaylistData');
 
-const tableConstraintsObj = require('../tableConstraints');
+const tableConstraintsObj = require('./tableConstraints');
 
 const createDB = (name) => 
 `DROP SCHEMA IF EXISTS ${name};\r\nCREATE SCHEMA IF NOT EXISTS ${name};\r\nUSE ${name};\r\n`;
