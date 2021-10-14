@@ -34,7 +34,7 @@ function main(list) {
 
     const final = BASE_QUERY + insertQuery;
 
-    fs.writeFileSync(`./data/non-normalized-playlist-${TURMA}.sql`, final);
+    fs.writeFileSync(`./data/non-normalized-playlist-T${TURMA}.sql`, final);
 }
 
 getPlaylistData.then(main);

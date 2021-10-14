@@ -4,8 +4,8 @@ require('dotenv/config');
 
 const { TURMA } = process.env;
 
-const playlistJSONName = `playlist-${TURMA}`;
-const playlistJSONUsers = `users-${TURMA}`;
+const playlistJSONName = `playlist-T${TURMA}`;
+const playlistJSONUsers = `users-T${TURMA}`;
 
 (async () => {
     const { playlistData, userArr } = await getPlaylistData();
