@@ -1,6 +1,6 @@
 ## Boas vindas ao Spotify DB Maker
 
-Apartir do id de uma playlist do spotify e um token, os scripts `writeDataMongo.js`, `writeDataMysql.js` e `sqlNonNormalized.js`, escrevem queries para inserir essas playlists
+A partir do id de uma playlist do spotify e um token, os scripts `writeDataMongo.js`, `writeDataMysql.js` e `sqlNonNormalized.js`, escrevem queries para inserir essas playlists
 
 O nome do arquivo (número/tribo da turma) gerado, a playlist base e o token, são extraído do arquivo `.env`, então popule o arquivo com as seguintes variáveis
 
