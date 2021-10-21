@@ -64,12 +64,12 @@ async function getMusicInfo(
 
 module.exports = async () => {
   try {
-    const playlistRequest = await axios.get(playlistEndPoint, axiosOptions);
     const { data } = await axios.get(playlistEndPoint, axiosOptions);
     const pages = Math.ceil(data.total / 100);
 
     // eslint-disable-next-line no-unused-vars
     for (const _ of Array(pages)) {
+    const playlistRequest = await axios.get(playlistEndPoint, axiosOptions);
       const tracks = playlistRequest.data.items;
       for (const track of tracks) {
         await getMusicInfo(track);
