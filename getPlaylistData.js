@@ -69,7 +69,7 @@ module.exports = async () => {
 
     // eslint-disable-next-line no-unused-vars
     for (const _ of Array(pages)) {
-    const playlistRequest = await axios.get(playlistEndPoint, axiosOptions);
+      const playlistRequest = await axios.get(playlistEndPoint, axiosOptions);
       const tracks = playlistRequest.data.items;
       for (const track of tracks) {
         await getMusicInfo(track);
