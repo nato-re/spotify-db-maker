@@ -1,6 +1,6 @@
-´´´sql
+```sql
 -- SELECT * FROM tracks;
-​
+
 -- Musica com maior duração
 SELECT * FROM tracks ORDER BY duration DESC LIMIT 1;
 ​
@@ -40,4 +40,4 @@ SELECT artist, COUNT(*) FROM tracks GROUP BY artist ORDER BY 2 DESC;
 FROM
     tracks
 ORDER BY duration; 
-´´´
+```
